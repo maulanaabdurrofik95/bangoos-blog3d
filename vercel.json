@@ -1,1 +1,1 @@
-{"rewrites": [{"source": "/api/:p*", "destination": "/api/server"}, {"source": "/auth/:p*", "destination": "/api/server"}, {"source": "/admin/api/:p*", "destination": "/api/server"}, {"source": "/health", "destination": "/api/server"}]}
+{"rewrites": [{"source": "/api/:p*", "destination": "/api/index"}, {"source": "/auth/:p*", "destination": "/api/index"}, {"source": "/admin/api/:p*", "destination": "/api/index"}, {"source": "/health", "destination": "/api/index"}]}
