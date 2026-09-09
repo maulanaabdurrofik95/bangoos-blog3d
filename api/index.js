@@ -28,8 +28,8 @@ app.use('/api', apiRoutes);
 app.use('/auth', authRoutes);
 app.use('/admin/api', adminRoutes);
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/admin', express.static(path.join(__dirname, 'admin')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));
 
 app.get('/health', (req, res) => res.json({ success: true, data: { status: 'ok' } }));
 
