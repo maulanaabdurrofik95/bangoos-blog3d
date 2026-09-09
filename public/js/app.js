@@ -74,7 +74,9 @@
   }
 
   function card(p) {
-    var img = p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy">' : '';
+    var img = p.cover
+      ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy">'
+      : '<div class="cover-fb cat-' + esc((p.category || 'umum').toLowerCase()) + '"><span>' + esc((p.category || 'U').slice(0, 1).toUpperCase()) + '</span></div>';
     return '<article class="card"><div class="card-in">' + img + '<div class="card-b">' +
       '<span class="cat">' + esc(p.category || 'Umum') + '</span>' +
       '<h2><a href="post.html?slug=' + encodeURIComponent(p.slug) + '">' + esc(p.title) + '</a></h2>' +
