@@ -75,13 +75,13 @@
 
   function card(p) {
     var img = p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy">' : '';
-    return '<article class="card">' + img + '<div class="card-b">' +
+    return '<article class="card"><div class="card-in">' + img + '<div class="card-b">' +
       '<span class="cat">' + esc(p.category || 'Umum') + '</span>' +
       '<h2><a href="post.html?slug=' + encodeURIComponent(p.slug) + '">' + esc(p.title) + '</a></h2>' +
       '<p>' + esc(excerpt(p)) + '</p>' +
       '<div class="meta">' + fmtDate(p.created_at || p.createdAt) +
       (p.views != null ? ' · <span class="views">' + Number(p.views) + ' dibaca</span>' : '') + '</div>' +
-      '</div></article>';
+      '</div></div></article>';
   }
 
   function renderMore() {
@@ -92,6 +92,35 @@
     grid.insertAdjacentHTML('beforeend', next.map(card).join(''));
     shown += next.length;
     moreBtn.hidden = shown >= list.length;
+    bindTilt();
+  }
+  /* 3D tilt: sentuh/geser kartu miring ngikutin jari (mobile) + mouse (desktop) */
+  function bindTilt() {
+    grid.querySelectorAll('.card:not([data-tilt])').forEach(function (el) {
+      el.setAttribute('data-tilt', '1');
+      var raf = null;
+      function tilt(cx, cy) {
+        var b = el.getBoundingClientRect();
+        var rx = ((cy - b.top) / b.height - 0.5) * -14;
+        var ry = ((cx - b.left) / b.width - 0.5) * 14;
+        el.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) translateZ(6px)';
+      }
+      el.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch') return;
+        el.classList.add('tilting');
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(function () { tilt(e.clientX, e.clientY); });
+      });
+      el.addEventListener('pointerleave', function () {
+        el.classList.remove('tilting');
+        el.style.transform = '';
+      });
+      el.addEventListener('touchmove', function (e) {
+        var t = e.touches[0];
+        if (t) tilt(t.clientX, t.clientY);
+      }, { passive: true });
+      el.addEventListener('touchend', function () { el.style.transform = ''; });
+    });
   }
   moreBtn.addEventListener('click', renderMore);
 

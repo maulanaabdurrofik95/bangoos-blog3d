@@ -64,11 +64,53 @@
 
     var running = true;
     var raf = 0;
+    /* objek 3D nyata: icosahedron neon + torus magenta + kubus kecil melayang */
+    var ico = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(0.9, 1),
+      new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.85 })
+    );
+    ico.position.set(2.4, 0.6, -1.5);
+    scene.add(ico);
+    var torus = new THREE.Mesh(
+      new THREE.TorusGeometry(1.25, 0.045, 10, 48),
+      new THREE.MeshBasicMaterial({ color: 0xf472b6, transparent: true, opacity: 0.8 })
+    );
+    torus.position.copy(ico.position);
+    torus.rotation.x = Math.PI / 2.4;
+    scene.add(torus);
+    var cube = new THREE.Mesh(
+      new THREE.BoxGeometry(0.55, 0.55, 0.55),
+      new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.7 })
+    );
+    cube.position.set(-2.6, -0.7, -1);
+    scene.add(cube);
+    var t = 0;
+    /* parallax ngikutin scroll + sentuhan jari di hero */
+    var px = 0, py = 0, gx = 0, gy = 0;
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY || 0;
+      gy = Math.min(1.2, y / 600);
+    }, { passive: true });
+    hero.addEventListener('pointermove', function (e) {
+      var b = hero.getBoundingClientRect();
+      gx = ((e.clientX - b.left) / b.width - 0.5) * 2;
+    }, { passive: true });
     function frame() {
       if (!running) return;
       pts.rotation.y += 0.0016;
       pts.rotation.x += 0.0006;
       pts2.rotation.y -= 0.001;
+      t += 0.012;
+      ico.rotation.y += 0.008; ico.rotation.x += 0.003;
+      ico.position.y = 0.6 + Math.sin(t * 1.2) * 0.18;
+      torus.rotation.z += 0.006;
+      torus.position.y = ico.position.y;
+      cube.rotation.x += 0.006; cube.rotation.y += 0.009;
+      cube.position.y = -0.7 + Math.cos(t) * 0.15;
+      px += (gx - px) * 0.06; py += (gy - py) * 0.06;
+      camera.position.x = px * 0.9;
+      camera.position.y = -py * 0.7;
+      camera.lookAt(0, 0, 0);
       renderer.render(scene, camera);
       raf = requestAnimationFrame(frame);
     }
