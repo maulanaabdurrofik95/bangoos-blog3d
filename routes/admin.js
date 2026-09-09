@@ -16,8 +16,8 @@ router.use((req, res, next) => {
   next();
 });
 
-const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
-fs.mkdirSync(uploadDir, { recursive: true });
+const uploadDir = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, '..', 'public', 'uploads');
+try { fs.mkdirSync(uploadDir, { recursive: true }); } catch (e) {}
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => cb(null, Date.now() + '-' + Math.round(Math.random() * 1e6) + path.extname(file.originalname).toLowerCase())
