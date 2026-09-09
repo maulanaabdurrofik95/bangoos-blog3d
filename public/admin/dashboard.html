@@ -4,57 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — BangoosBlog3D Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/admin.css">
 <script src="js/dashboard.js" defer></script>
 </head>
 <body>
 <header class="topbar">
   <div class="in">
-    <div class="brand">Bangoos<span>Blog3D</span> Admin</div>
-    <nav>
+    <div class="brand">Bangoos<span>Blog3D</span> <small>ADMIN</small></div>
+    <nav aria-label="Navigasi admin">
       <button data-tab="tDash" class="on">Dashboard</button>
       <button data-tab="tPosts">Posting</button>
       <button data-tab="tComments">Komentar <span id="cBadge"></span></button>
       <button data-tab="tSettings">Settings</button>
-      <button id="logoutBtn" title="Keluar">⏻</button>
+      <button id="logoutBtn" title="Keluar">Keluar</button>
     </nav>
   </div>
 </header>
 
 <main class="main">
-  <section class="tab on" id="tDash">
+  <section class="tab on" id="tDash" aria-label="Ringkasan">
     <div class="stats">
       <div class="stat"><div class="n" id="sPosts">–</div><div class="l">Total Posting</div></div>
       <div class="stat"><div class="n" id="sViews">–</div><div class="l">Total Views</div></div>
       <div class="stat"><div class="n" id="sComments">–</div><div class="l">Komentar</div></div>
-      <div class="stat"><div class="n" id="sPending">–</div><div class="l">Menunggu Moderasi</div></div>
+      <div class="stat" id="statPending"><div class="n" id="sPending">–</div><div class="l">Menunggu Moderasi</div></div>
     </div>
     <div class="panel">
       <h2>Posting Terbaru</h2>
-      <div class="tblwrap"><table class="tbl"><thead><tr><th>Judul</th><th>Status</th><th>Views</th></tr></thead>
-      <tbody id="recentBody"><tr><td colspan="3" class="empty">Memuat…</td></tr></tbody></table></div>
+      <div class="sub">Sumber: GET /admin/api/stats — angka tampil setelah termuat, bukan placeholder.</div>
+      <div class="tblwrap"><table class="tbl"><thead><tr><th>Judul</th><th>Status</th><th style="text-align:right">Views</th></tr></thead>
+      <tbody id="recentBody"><tr><td colspan="3" class="empty">Memuat...</td></tr></tbody></table></div>
     </div>
   </section>
 
-  <section class="tab" id="tPosts">
+  <section class="tab" id="tPosts" aria-label="Kelola posting">
     <div class="panel">
       <h2 id="formTitle">Tulis Posting Baru</h2>
+      <div class="sub">Simpan via POST/PUT /admin/api/posts. Slug terisi otomatis dari judul.</div>
       <form id="postForm">
         <input type="hidden" id="fId">
-        <div class="field"><label>Judul</label><input id="fTitle" required maxlength="200"></div>
+        <div class="field"><label for="fTitle">Judul</label><input id="fTitle" required maxlength="200" placeholder="Judul posting"></div>
         <div class="row two">
-          <div class="field"><label>Slug (otomatis jika kosong)</label><input id="fSlug" maxlength="220"></div>
-          <div class="field"><label>Kategori</label><input id="fCat" placeholder="mis. Tutorial" maxlength="60"></div>
+          <div class="field"><label for="fSlug">Slug (otomatis jika kosong)</label><input id="fSlug" maxlength="220" placeholder="judul-posting"></div>
+          <div class="field"><label for="fCat">Kategori</label><input id="fCat" placeholder="mis. Tutorial" maxlength="60"></div>
         </div>
         <div class="row two">
-          <div class="field"><label>Cover (URL gambar)</label><input id="fCover" placeholder="https://…"></div>
-          <div class="field"><label>Status</label>
+          <div class="field"><label for="fCover">Cover (URL gambar)</label><input id="fCover" placeholder="https://..."></div>
+          <div class="field"><label for="fStatus">Status</label>
             <select id="fStatus"><option value="published">Published</option><option value="draft">Draft</option></select>
           </div>
         </div>
-        <div class="field"><label>Ringkasan (excerpt)</label><textarea id="fExcerpt" rows="2" maxlength="300"></textarea></div>
-        <div class="field"><label>Konten (HTML)</label><textarea id="fContent" rows="10" required></textarea></div>
-        <div style="display:flex;gap:8px">
+        <div class="field"><label for="fExcerpt">Ringkasan (excerpt)</label><textarea id="fExcerpt" rows="2" maxlength="300" placeholder="Satu-dua kalimat ringkasan"></textarea></div>
+        <div class="field"><label for="fContent">Konten (HTML)</label><textarea id="fContent" rows="10" required placeholder="<p>Isi posting..."></textarea></div>
+        <div class="formbtns">
           <button class="btn" type="submit" id="saveBtn">Simpan</button>
           <button class="ghost" type="button" id="resetBtn">Batal / Baru</button>
         </div>
@@ -62,39 +67,43 @@
     </div>
     <div class="panel">
       <h2>Semua Posting</h2>
+      <div class="sub">Klik Edit untuk memuat ke formulir di atas. Hapus meminta konfirmasi.</div>
       <div class="tblwrap"><table class="tbl"><thead><tr><th>Judul</th><th>Kategori</th><th>Status</th><th>Aksi</th></tr></thead>
-      <tbody id="postsBody"><tr><td colspan="4" class="empty">Memuat…</td></tr></tbody></table></div>
+      <tbody id="postsBody"><tr><td colspan="4" class="empty">Memuat...</td></tr></tbody></table></div>
     </div>
   </section>
 
-  <section class="tab" id="tComments">
+  <section class="tab" id="tComments" aria-label="Kelola komentar">
     <div class="panel">
       <h2>Kelola Komentar</h2>
+      <div class="sub">Setujui atau hapus via /admin/api/comments. Pending tampil lebih dulu bila ada.</div>
       <div class="tblwrap"><table class="tbl"><thead><tr><th>Nama</th><th>Komentar</th><th>Posting</th><th>Status</th><th>Aksi</th></tr></thead>
-      <tbody id="commentsBody"><tr><td colspan="5" class="empty">Memuat…</td></tr></tbody></table></div>
+      <tbody id="commentsBody"><tr><td colspan="5" class="empty">Memuat...</td></tr></tbody></table></div>
     </div>
   </section>
 
-  <section class="tab" id="tSettings">
+  <section class="tab" id="tSettings" aria-label="Pengaturan">
     <div class="panel">
       <h2>Pengaturan Blog</h2>
+      <div class="sub">Disimpan via PUT /admin/api/settings.</div>
       <form id="settingsForm">
-        <div class="field"><label>Judul Blog</label><input id="sTitle" maxlength="120"></div>
-        <div class="field"><label>Deskripsi</label><textarea id="sDesc" rows="2" maxlength="300"></textarea></div>
-        <div class="field"><label>Nama Author Default</label><input id="sAuthor" maxlength="80"></div>
-        <button class="btn" type="submit">Simpan Settings</button>
+        <div class="field"><label for="sTitle">Judul Blog</label><input id="sTitle" maxlength="120"></div>
+        <div class="field"><label for="sDesc">Deskripsi</label><textarea id="sDesc" rows="2" maxlength="300"></textarea></div>
+        <div class="field"><label for="sAuthor">Nama Author Default</label><input id="sAuthor" maxlength="80"></div>
+        <div class="formbtns"><button class="btn" type="submit">Simpan Settings</button></div>
       </form>
     </div>
     <div class="panel">
       <h2>Ganti Password</h2>
+      <div class="sub">Via PUT /admin/api/password. Minimal 6 karakter.</div>
       <form id="passForm">
-        <div class="field"><label>Password Lama</label><input id="pOld" type="password" required></div>
-        <div class="field"><label>Password Baru</label><input id="pNew" type="password" required minlength="6"></div>
-        <button class="btn" type="submit">Ganti Password</button>
+        <div class="field"><label for="pOld">Password Lama</label><input id="pOld" type="password" required autocomplete="current-password"></div>
+        <div class="field"><label for="pNew">Password Baru</label><input id="pNew" type="password" required minlength="6" autocomplete="new-password"></div>
+        <div class="formbtns"><button class="btn" type="submit">Ganti Password</button></div>
       </form>
     </div>
   </section>
 </main>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

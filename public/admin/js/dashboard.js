@@ -47,6 +47,8 @@
       document.getElementById('sComments').textContent = s.comments != null ? s.comments : '–';
       document.getElementById('sPending').textContent = s.pending != null ? s.pending : '–';
       document.getElementById('cBadge').textContent = s.pending ? '(' + s.pending + ')' : '';
+      var sp = document.getElementById('statPending');
+      if (sp) sp.classList.toggle('hot', (s.pending | 0) > 0);
       var rec = s.recent || [];
       document.getElementById('recentBody').innerHTML = rec.length ? rec.map(function (p) {
         return '<tr><td>' + esc(p.title) + '</td><td>' +

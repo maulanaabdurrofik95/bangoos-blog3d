@@ -3,22 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Memuat… — BangoosBlog3D</title>
+<title>Memuat... — BangoosBlog3D</title>
 <meta name="description" content="Baca artikel di BangoosBlog3D.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <script src="js/post.js" defer></script>
 </head>
 <body>
 <header class="site-head">
   <div class="wrap">
-    <a class="logo" href="index.html">Bangoos<span>Blog3D</span></a>
+    <a class="logo" href="index.html">Bangoos<b>Blog3D</b></a>
     <nav><a href="index.html">Beranda</a></nav>
   </div>
 </header>
 
 <main class="wrap">
-  <a class="back" href="index.html">← Kembali</a>
-  <div id="state" class="state"><div class="spinner"></div>Memuat artikel…</div>
+  <a class="back" href="index.html">&larr; Kembali</a>
+  <div id="state" class="state"><div class="spinner"></div>Memuat artikel...</div>
   <article class="post" id="post" hidden>
     <span class="cat" id="pCat"></span>
     <h1 id="pTitle"></h1>
@@ -30,9 +33,9 @@
   <section class="csec" id="csec" hidden>
     <h3>Komentar (<span id="cCount">0</span>)</h3>
     <form class="cform" id="cform">
-      <input id="cName" maxlength="60" placeholder="Nama kamu" required>
-      <textarea id="cMsg" rows="3" maxlength="1000" placeholder="Tulis komentar…" required></textarea>
-      <button type="submit">Kirim Komentar</button>
+      <input id="cName" maxlength="60" placeholder="Nama kamu" required autocomplete="name">
+      <textarea id="cMsg" rows="3" maxlength="2000" placeholder="Tulis komentar..." required></textarea>
+      <button class="btn" type="submit">Kirim Komentar</button>
       <div class="note">Komentar tampil setelah disetujui admin.</div>
     </form>
     <div id="clist"></div>
@@ -44,9 +47,13 @@
 </footer>
 
 <nav class="bottom-nav" aria-label="Navigasi bawah">
-  <a href="index.html"><span class="ic">🏠</span>Beranda</a>
-  <a href="index.html#list"><span class="ic">📰</span>Artikel</a>
+  <a href="index.html">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/></svg>
+    Beranda</a>
+  <a href="index.html#list">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"/><path d="M8.5 9.5h7M8.5 13h7M8.5 16.5h4"/></svg>
+    Artikel</a>
 </nav>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status"></div>
 </body>
 </html>

@@ -1,4 +1,6 @@
-/* BangoosBlog3D — homepage: fetch posts, search, category chips */
+/* BangoosBlog3D — homepage: fetch posts, search, category chips
+   Kontrak API: GET /api/posts?search=&cat= -> { success, data: [...] }
+                GET /api/cats -> { success, data: [{ name, count }] } */
 (function () {
   'use strict';
   var API = '/api';
@@ -13,13 +15,19 @@
   var PER_PAGE = 6;
 
   document.getElementById('yr').textContent = new Date().getFullYear();
-  document.getElementById('navCari').addEventListener('click', function (e) {
-    e.preventDefault(); qInput.focus(); qInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  var navCari = document.getElementById('navCari');
+  if (navCari) navCari.addEventListener('click', function (e) {
+    e.preventDefault();
+    qInput.focus();
+    qInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
-  function showToast(msg) {
-    toast.textContent = msg; toast.style.display = 'block';
-    clearTimeout(showToast.t); showToast.t = setTimeout(function () { toast.style.display = 'none'; }, 2500);
+  function showToast(msg, isErr) {
+    toast.textContent = msg;
+    toast.className = 'toast' + (isErr ? ' err' : '');
+    toast.style.display = 'block';
+    clearTimeout(showToast.t);
+    showToast.t = setTimeout(function () { toast.style.display = 'none'; }, 2500);
   }
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -33,7 +41,13 @@
   function excerpt(p) {
     if (p.excerpt) return p.excerpt;
     var t = String(p.content || '').replace(/<[^>]+>/g, ' ');
-    return t.length > 140 ? t.slice(0, 140) + '…' : t;
+    return t.length > 140 ? t.slice(0, 140) + '...' : t;
+  }
+  function unwrap(d) {
+    if (Array.isArray(d)) return d;
+    if (d && Array.isArray(d.data)) return d.data;
+    if (d && Array.isArray(d.posts)) return d.posts;
+    return [];
   }
 
   function setState(html) { state.innerHTML = html; state.style.display = html ? '' : 'none'; }
@@ -55,7 +69,7 @@
       var okCat = activeCat === 'Semua' || p.category === activeCat;
       if (!okCat) return false;
       if (!q) return true;
-      return (p.title + ' ' + (p.content || '') + ' ' + (p.category || '')).toLowerCase().indexOf(q) > -1;
+      return (p.title + ' ' + (p.content || '') + ' ' + (p.excerpt || '') + ' ' + (p.category || '')).toLowerCase().indexOf(q) > -1;
     });
   }
 
@@ -65,7 +79,8 @@
       '<span class="cat">' + esc(p.category || 'Umum') + '</span>' +
       '<h2><a href="post.html?slug=' + encodeURIComponent(p.slug) + '">' + esc(p.title) + '</a></h2>' +
       '<p>' + esc(excerpt(p)) + '</p>' +
-      '<div class="meta">' + fmtDate(p.created_at || p.createdAt) + (p.views != null ? ' · ' + p.views + ' dibaca' : '') + '</div>' +
+      '<div class="meta">' + fmtDate(p.created_at || p.createdAt) +
+      (p.views != null ? ' · <span class="views">' + Number(p.views) + ' dibaca</span>' : '') + '</div>' +
       '</div></article>';
   }
 
@@ -85,17 +100,33 @@
     e.preventDefault(); shown = 0; grid.innerHTML = ''; renderMore();
   });
   qInput.addEventListener('input', function () {
-    clearTimeout(deb); deb = setTimeout(function () { shown = 0; grid.innerHTML = ''; renderMore(); }, 300);
+    clearTimeout(deb);
+    deb = setTimeout(function () { shown = 0; grid.innerHTML = ''; renderMore(); }, 300);
   });
+
+  function setStats() {
+    var sp = document.getElementById('statPosts');
+    var sc = document.getElementById('statCats');
+    if (sp) sp.textContent = String(posts.length);
+    if (sc) sc.textContent = String(Math.max(cats.length - 1, 0));
+  }
 
   fetch(API + '/posts')
     .then(function (r) { if (!r.ok) throw 0; return r.json(); })
     .then(function (d) {
-      posts = d.posts || d.data || d || [];
+      posts = unwrap(d);
       var set = {};
       posts.forEach(function (p) { if (p.category) set[p.category] = 1; });
       cats = ['Semua'].concat(Object.keys(set).sort());
-      renderChips(); renderMore();
+      renderChips(); renderMore(); setStats();
+      // Sinkron kategori + count dari /api/cats bila tersedia
+      return fetch(API + '/cats').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
     })
-    .catch(function () { setState('Gagal memuat artikel. Coba muat ulang.'); showToast('Tidak bisa terhubung ke server'); });
+    .then(function (d) {
+      if (d && Array.isArray(d.data) && d.data.length) {
+        cats = ['Semua'].concat(d.data.map(function (c) { return c.name; }));
+        renderChips(); setStats();
+      }
+    })
+    .catch(function () { setState('Gagal memuat artikel. Coba muat ulang.'); showToast('Tidak bisa terhubung ke server', true); });
 })();

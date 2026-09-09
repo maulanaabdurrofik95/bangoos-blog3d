@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bangoos Blog 3D — Tulisan, Tutorial & Eksperimen 3D</title>
-<meta name="description" content="Blog ringan tentang web, 3D, dan eksperimen kreatif.">
+<title>Bangoos Blog 3D — Tulisan, Tutorial &amp; Eksperimen 3D</title>
+<meta name="description" content="Tutorial, catatan, dan eksperimen Three.js — ringan dibuka di HP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 <script src="js/three-bg.js" defer></script>
@@ -13,7 +16,7 @@
 <body>
 <header class="site-head">
   <div class="wrap">
-    <a class="logo" href="index.html">Bangoos<span>Blog3D</span></a>
+    <a class="logo" href="index.html">Bangoos<b>Blog3D</b></a>
     <nav><a href="index.html" class="on">Beranda</a><a href="#list">Artikel</a></nav>
   </div>
 </header>
@@ -21,16 +24,22 @@
 <section class="hero">
   <canvas id="bg3d" aria-hidden="true"></canvas>
   <div class="hero-in wrap">
-    <h1>Ngoding, Nge-3D,<br><span>Nge-blog Santai.</span></h1>
-    <p>Tutorial, catatan, dan eksperimen Three.js — ringan dibuka di HP.</p>
+    <span class="eyebrow">Blog · Tutorial · 3D</span>
+    <h1>Ngoding, Nge-3D,<br><span class="neon">Nge-blog Santai.</span></h1>
+    <p class="sub">Tutorial, catatan, dan eksperimen Three.js — ringan dibuka di HP.</p>
+    <div class="hero-card">
+      <div class="stat"><strong id="statPosts">–</strong><span>Artikel</span></div>
+      <div class="stat"><strong id="statCats">–</strong><span>Kategori</span></div>
+      <a class="btn cta" href="#list">Mulai Baca</a>
+    </div>
   </div>
 </section>
 
 <div class="toolbar">
   <div class="wrap">
     <form class="search" id="searchForm" role="search">
-      <input id="q" type="search" placeholder="Cari artikel…" autocomplete="off" aria-label="Cari artikel">
-      <button type="submit">Cari</button>
+      <input id="q" type="search" placeholder="Cari artikel..." autocomplete="off" aria-label="Cari artikel">
+      <button class="btn" type="submit">Cari</button>
     </form>
     <div class="chips" id="chips" aria-label="Filter kategori"></div>
   </div>
@@ -38,19 +47,25 @@
 
 <main class="wrap" id="list">
   <div class="grid" id="grid"></div>
-  <div id="state" class="state"><div class="spinner"></div>Memuat artikel…</div>
-  <button class="more" id="moreBtn" hidden>Muat lebih banyak</button>
+  <div id="state" class="state"><div class="spinner"></div>Memuat artikel...</div>
+  <button class="btn ghost more" id="moreBtn" hidden>Muat lebih banyak</button>
 </main>
 
 <footer class="site">
-  <div class="wrap">© <span id="yr"></span> BangoosBlog3D · Dibuat dengan ♥ & Three.js</div>
+  <div class="wrap">© <span id="yr"></span> BangoosBlog3D · Dibuat dengan Three.js</div>
 </footer>
 
 <nav class="bottom-nav" aria-label="Navigasi bawah">
-  <a href="index.html" class="on"><span class="ic">🏠</span>Beranda</a>
-  <a href="#list" id="navArtikel"><span class="ic">📰</span>Artikel</a>
-  <a href="#" id="navCari"><span class="ic">🔍</span>Cari</a>
+  <a href="index.html" class="on">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/></svg>
+    Beranda</a>
+  <a href="#list" id="navArtikel">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"/><path d="M8.5 9.5h7M8.5 13h7M8.5 16.5h4"/></svg>
+    Artikel</a>
+  <a href="#" id="navCari">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+    Cari</a>
 </nav>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status"></div>
 </body>
 </html>
