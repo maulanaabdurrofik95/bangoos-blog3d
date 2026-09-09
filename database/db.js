@@ -4,9 +4,14 @@ const path = require('node:path');
 const { DatabaseSync } = require('node:sqlite');
 const bcrypt = require('bcryptjs');
 
-const DB_DIR = path.join(__dirname);
+const DB_DIR = process.env.VERCEL ? '/tmp' : path.join(__dirname);
 const DB_FILE = path.join(DB_DIR, 'blog.db');
-const db = new DatabaseSync(DB_FILE);
+let db;
+try {
+  db = new DatabaseSync(DB_FILE);
+} catch (e) {
+  db = new DatabaseSync(':memory:');
+}
 
 db.exec('PRAGMA journal_mode = WAL');
 
