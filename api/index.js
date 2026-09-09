@@ -5,11 +5,11 @@ const session = require('express-session');
 const cors = require('cors');
 const path = require('node:path');
 
-require('./database/db');
+require('../database/db');
 
-const apiRoutes = require('./routes/api');
-const authRoutes = require('./routes/auth');
-const adminRoutes = require('./routes/admin');
+const apiRoutes = require('../routes/api');
+const authRoutes = require('../routes/auth');
+const adminRoutes = require('../routes/admin');
 
 const app = express();
 const PORT = process.env.PORT || 3005;
