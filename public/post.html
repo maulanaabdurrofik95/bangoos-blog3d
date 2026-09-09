@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memuat… — BangoosBlog3D</title>
+<meta name="description" content="Baca artikel di BangoosBlog3D.">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/post.js" defer></script>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <a class="logo" href="index.html">Bangoos<span>Blog3D</span></a>
+    <nav><a href="index.html">Beranda</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <a class="back" href="index.html">← Kembali</a>
+  <div id="state" class="state"><div class="spinner"></div>Memuat artikel…</div>
+  <article class="post" id="post" hidden>
+    <span class="cat" id="pCat"></span>
+    <h1 id="pTitle"></h1>
+    <div class="meta" id="pMeta"></div>
+    <img class="cover" id="pCover" alt="" hidden>
+    <div class="body" id="pBody"></div>
+  </article>
+
+  <section class="csec" id="csec" hidden>
+    <h3>Komentar (<span id="cCount">0</span>)</h3>
+    <form class="cform" id="cform">
+      <input id="cName" maxlength="60" placeholder="Nama kamu" required>
+      <textarea id="cMsg" rows="3" maxlength="1000" placeholder="Tulis komentar…" required></textarea>
+      <button type="submit">Kirim Komentar</button>
+      <div class="note">Komentar tampil setelah disetujui admin.</div>
+    </form>
+    <div id="clist"></div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">© <span id="yr"></span> BangoosBlog3D</div>
+</footer>
+
+<nav class="bottom-nav" aria-label="Navigasi bawah">
+  <a href="index.html"><span class="ic">🏠</span>Beranda</a>
+  <a href="index.html#list"><span class="ic">📰</span>Artikel</a>
+</nav>
+<div class="toast" id="toast"></div>
+</body>
+</html>

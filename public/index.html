@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bangoos Blog 3D — Tulisan, Tutorial & Eksperimen 3D</title>
+<meta name="description" content="Blog ringan tentang web, 3D, dan eksperimen kreatif.">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<script src="js/three-bg.js" defer></script>
+<script src="js/app.js" defer></script>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <a class="logo" href="index.html">Bangoos<span>Blog3D</span></a>
+    <nav><a href="index.html" class="on">Beranda</a><a href="#list">Artikel</a></nav>
+  </div>
+</header>
+
+<section class="hero">
+  <canvas id="bg3d" aria-hidden="true"></canvas>
+  <div class="hero-in wrap">
+    <h1>Ngoding, Nge-3D,<br><span>Nge-blog Santai.</span></h1>
+    <p>Tutorial, catatan, dan eksperimen Three.js — ringan dibuka di HP.</p>
+  </div>
+</section>
+
+<div class="toolbar">
+  <div class="wrap">
+    <form class="search" id="searchForm" role="search">
+      <input id="q" type="search" placeholder="Cari artikel…" autocomplete="off" aria-label="Cari artikel">
+      <button type="submit">Cari</button>
+    </form>
+    <div class="chips" id="chips" aria-label="Filter kategori"></div>
+  </div>
+</div>
+
+<main class="wrap" id="list">
+  <div class="grid" id="grid"></div>
+  <div id="state" class="state"><div class="spinner"></div>Memuat artikel…</div>
+  <button class="more" id="moreBtn" hidden>Muat lebih banyak</button>
+</main>
+
+<footer class="site">
+  <div class="wrap">© <span id="yr"></span> BangoosBlog3D · Dibuat dengan ♥ & Three.js</div>
+</footer>
+
+<nav class="bottom-nav" aria-label="Navigasi bawah">
+  <a href="index.html" class="on"><span class="ic">🏠</span>Beranda</a>
+  <a href="#list" id="navArtikel"><span class="ic">📰</span>Artikel</a>
+  <a href="#" id="navCari"><span class="ic">🔍</span>Cari</a>
+</nav>
+<div class="toast" id="toast"></div>
+</body>
+</html>
