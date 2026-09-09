@@ -1,1 +1,1 @@
-{"rewrites": [{"source": "/api/:p*", "destination": "/api/index"}, {"source": "/auth/:p*", "destination": "/api/index"}, {"source": "/admin/api/:p*", "destination": "/api/index"}, {"source": "/health", "destination": "/api/index"}]}
+{"rewrites": [{"source": "/api/:p*", "destination": "/api/index"}, {"source": "/auth/:p*", "destination": "/api/index"}, {"source": "/admin/api/:p*", "destination": "/api/index"}, {"source": "/health", "destination": "/api/index"}, {"source": "/admin/:p*", "destination": "/admin/:p*"}, {"source": "/post.html", "destination": "/post.html"}]}
