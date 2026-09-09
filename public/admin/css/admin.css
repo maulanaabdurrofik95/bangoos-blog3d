@@ -18,13 +18,17 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;
 a{color:var(--acc)}
 ::selection{background:rgba(34,211,238,.28)}
 
-/* ---------- login ---------- */
-.center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.login-card{background:var(--glass);border:1px solid var(--line);border-radius:20px;
+/* ---------- login 3D glass + glow + tilt ---------- */
+.center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;perspective:1200px;
+  background:radial-gradient(520px 300px at 50% 8%,rgba(34,211,238,.10),transparent 65%)}
+.login-card{background:linear-gradient(165deg,rgba(22,32,56,.78),rgba(10,15,30,.88));
+  border:1px solid rgba(34,211,238,.25);border-radius:20px;
   padding:30px 26px;width:100%;max-width:370px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  box-shadow:0 0 0 1px rgba(34,211,238,.06),0 0 44px rgba(34,211,238,.14),0 24px 60px rgba(0,0,0,.5)}
-.login-card .kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--acc);margin-bottom:10px}
-.login-card h1{font-size:1.35rem;font-weight:800;letter-spacing:-.01em}
+  box-shadow:0 0 0 1px rgba(34,211,238,.06),0 0 44px rgba(34,211,238,.14),0 24px 60px rgba(0,0,0,.5);
+  transform-style:preserve-3d;will-change:transform;transition:transform .12s ease-out}
+.login-card .kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--acc);margin-bottom:10px;
+  text-shadow:0 0 14px rgba(34,211,238,.6)}
+.login-card h1{font-size:1.35rem;font-weight:800;letter-spacing:-.01em;text-shadow:0 0 26px rgba(34,211,238,.3)}
 .login-card h1 span{color:var(--acc)}
 .login-card>p{color:var(--mut);font-size:.86rem;margin:6px 0 20px}
 .login-card form{display:grid;gap:12px}
@@ -34,9 +38,12 @@ input,select,textarea{background:rgba(7,11,22,.72);border:1px solid var(--line);
   border-radius:var(--r-sm);padding:10px 12px;font-size:.9rem;font-family:inherit;width:100%;outline:none;transition:border-color .15s}
 input:focus,select:focus,textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(34,211,238,.12)}
 textarea{resize:vertical;min-height:44px}
-button.btn{background:var(--acc);border:0;color:#04222a;border-radius:var(--r-sm);
-  padding:11px;font-weight:800;cursor:pointer;font-size:.92rem;transition:filter .15s,transform .05s}
-button.btn:hover{filter:brightness(1.08)}
+button.btn{background:linear-gradient(180deg,#67e8f9,#22d3ee 55%,#0891b2);border:0;color:#04222a;border-radius:var(--r-sm);
+  padding:11px;font-weight:800;cursor:pointer;font-size:.92rem;
+  box-shadow:0 3px 0 #0e7490,0 6px 20px rgba(34,211,238,.4);text-shadow:0 1px 0 rgba(255,255,255,.3);
+  transition:filter .15s,transform .05s,box-shadow .1s}
+button.btn:hover{filter:brightness(1.08);box-shadow:0 3px 0 #0e7490,0 6px 30px rgba(34,211,238,.6)}
+button.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #0e7490,0 2px 8px rgba(34,211,238,.3)}
 button.btn:active{transform:translateY(1px)}
 button.btn:disabled{opacity:.6;cursor:wait}
 button.ghost{background:transparent;border:1px solid var(--line);color:var(--txt);
@@ -72,9 +79,12 @@ button.small{padding:6px 10px;font-size:.76rem;border-radius:8px;font-weight:600
 /* ---------- stats: real data only, no decoration ---------- */
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
 @media(min-width:680px){.stats{grid-template-columns:repeat(4,1fr)}}
-.stat{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.stat .n{font-size:1.55rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat{background:linear-gradient(160deg,rgba(20,30,52,.8),rgba(10,15,30,.88));
+  border:1px solid rgba(34,211,238,.16);border-radius:var(--r);padding:15px 16px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:0 8px 26px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06)}
+.stat .n{font-size:1.55rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+  color:var(--acc);text-shadow:0 0 18px rgba(34,211,238,.5)}
 .stat .l{color:var(--mut);font-size:.76rem;margin-top:2px}
 .stat.hot{border-color:rgba(251,191,36,.4)}
 .stat.hot .n{color:var(--warn)}
