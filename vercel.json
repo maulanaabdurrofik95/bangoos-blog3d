@@ -1,1 +1,1 @@
-{"functions": {"server.js": {"maxDuration": 10}}, "rewrites": [{"source": "/api/:p*", "destination": "/server.js"}, {"source": "/auth/:p*", "destination": "/server.js"}, {"source": "/admin/api/:p*", "destination": "/server.js"}, {"source": "/health", "destination": "/server.js"}]}
+{"rewrites": [{"source": "/api/:p*", "destination": "/api/server"}, {"source": "/auth/:p*", "destination": "/api/server"}, {"source": "/admin/api/:p*", "destination": "/api/server"}, {"source": "/health", "destination": "/api/server"}]}
