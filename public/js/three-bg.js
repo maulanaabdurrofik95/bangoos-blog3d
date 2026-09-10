@@ -85,6 +85,24 @@
     cube.position.set(-2.6, -0.7, -1);
     scene.add(cube);
     var t = 0;
+    /* maskot lokal: bebek GLB (gagal load = skip diam-diam, scene tetap jalan) */
+    var duck = null;
+    function loadDuck() {
+      if (typeof THREE.GLTFLoader === 'undefined') {
+        var s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/GLTFLoader.min.js';
+        s.onload = loadDuck;
+        document.head.appendChild(s);
+        return;
+      }
+      new THREE.GLTFLoader().load('models/Duck.glb', function (g) {
+        duck = g.scene;
+        duck.scale.set(1.4, 1.4, 1.4);
+        duck.position.set(-2.4, -0.9, -0.5);
+        scene.add(duck);
+      }, undefined, function () { duck = null; });
+    }
+    loadDuck();
     /* parallax ngikutin scroll + sentuhan jari di hero */
     var px = 0, py = 0, gx = 0, gy = 0;
     window.addEventListener('scroll', function () {
@@ -107,6 +125,7 @@
       torus.position.y = ico.position.y;
       cube.rotation.x += 0.006; cube.rotation.y += 0.009;
       cube.position.y = -0.7 + Math.cos(t) * 0.15;
+      if (duck) { duck.rotation.y += 0.01; duck.position.y = -0.9 + Math.sin(t * 1.5) * 0.12; }
       px += (gx - px) * 0.06; py += (gy - py) * 0.06;
       camera.position.x = px * 0.9;
       camera.position.y = -py * 0.7;
