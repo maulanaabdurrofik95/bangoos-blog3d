@@ -66,24 +66,28 @@ function seed() {
       {
         title: 'Selamat Datang di Bangoos Blog 3D',
         category: 'Pengumuman', tags: 'blog,3d,selamat-datang',
+        cover: '/uploads/cover-pengumuman.png',
         excerpt: 'Perkenalan blog dengan nuansa 3D yang ringan dan mobile-first.',
         content: '<p>Halo! Ini adalah postingan pertama di <strong>Bangoos Blog 3D</strong>. Blog ini dibangun dengan Node.js, Express, dan SQLite — cepat, ringan, dan mobile-first.</p><p>Efek partikel canvas memberi kesan 3D tanpa membebani HP kentang sekalipun.</p>'
       },
       {
         title: '5 Tips Menulis Artikel yang Enak Dibaca',
         category: 'Tips', tags: 'menulis,tips,blogging',
+        cover: '/uploads/cover-tips.png',
         excerpt: 'Judul jelas, paragraf pendek, dan satu ide per tulisan.',
         content: '<p>1. <strong>Satu tulisan, satu ide.</strong> Jangan campur banyak topik.</p><p>2. <strong>Paragraf pendek.</strong> Maksimal 3 baris per paragraf di layar HP.</p><p>3. <strong>Judul yang jujur.</strong> Jangan clickbait.</p><p>4. <strong>Buka dengan cerita.</strong> Pembaca Indonesia suka sapaan hangat.</p><p>5. <strong>Akhiri dengan ajakan.</strong> Minta komentar pembaca.</p>'
       },
       {
         title: 'Resep Nasi Goreng Kampung ala Anak Kos',
         category: 'Kuliner', tags: 'resep,nasi-goreng,kuliner',
+        cover: '/uploads/cover-kuliner.png',
         excerpt: 'Murah, cepat, dan dijamin nagih — modal di bawah 15 ribu.',
         content: '<p><strong>Bahan:</strong> nasi sisa semalam, 2 siung bawang putih, 1 butir telur, kecap manis, garam, cabai rawit.</p><p><strong>Cara:</strong> Tumis bawang dan cabai sampai harum, masukkan telur orak-arik, masukkan nasi, tambah kecap dan garam, aduk dengan api besar 3 menit. Sajikan dengan kerupuk.</p>'
       },
       {
         title: 'Jalan-Jalan Hemat ke Yogyakarta 2 Hari 1 Malam',
         category: 'Travel', tags: 'travel,yogyakarta,hemat',
+        cover: '/uploads/cover-travel.png',
         excerpt: 'Itinerary lengkap Malioboro, Keraton, hingga Pantai Parangtritis.',
         content: '<p><strong>Hari 1:</strong> Tiba via kereta pagi, titip tas di penginapan Malioboro (100 ribuan/malam), jalan ke Keraton dan Taman Sari, sore ke Alun-alun Kidul, malam kuliner gudeg.</p><p><strong>Hari 2:</strong> Sunrise di Pantai Parangtritis naik bus TransJogja + ojek, siang beli bakpia, sore pulang.</p><p><strong>Budget:</strong> sekitar 500 ribu sudah termasuk makan dan penginapan.</p>'
       }
@@ -91,8 +95,8 @@ function seed() {
     const ins = db.prepare('INSERT INTO posts (title, slug, excerpt, content, cover, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?)');
     posts.forEach((p, i) => {
       let slug = slugify(p.title);
-      try { ins.run(p.title, slug, p.excerpt, p.content, '', p.category, p.tags); }
-      catch { ins.run(p.title, slug + '-' + (i + 1), p.excerpt, p.content, '', p.category, p.tags); }
+      try { ins.run(p.title, slug, p.excerpt, p.content, p.cover || '', p.category, p.tags); }
+      catch { ins.run(p.title, slug + '-' + (i + 1), p.excerpt, p.content, p.cover || '', p.category, p.tags); }
     });
   }
   const defaults = {
