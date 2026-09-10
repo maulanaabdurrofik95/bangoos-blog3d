@@ -135,7 +135,7 @@ h1, h2, h3, .logo { font-family: var(--font-head); }
 .chip.on { background: var(--neon); color: #04222a; border-color: var(--neon); font-weight: 600; }
 
 /* ---------- grid perspektif 3D ---------- */
-#list .grid, main .grid { perspective: 1200px; }
+#list .grid, main .grid { perspective: 1200px; display: grid; gap: 28px; padding: 24px 0 12px; }
 
 /* BangoosBlog3D — glass 3D + glowing
    bg #070b16 · neon cyan #22d3ee · magenta #f472b6
